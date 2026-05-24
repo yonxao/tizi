@@ -4,25 +4,25 @@
 # 这些规则来自你原 rules 中的 REJECT 部分。
 # 放在业务分流之前，先处理明显无价值连接。
 
-rules:
-  - DOMAIN-KEYWORD,admarvel,Reject
-  - DOMAIN-KEYWORD,admaster,Reject
-  - DOMAIN-KEYWORD,adsage,Reject
-  - DOMAIN-KEYWORD,adsmogo,Reject
-  - DOMAIN-KEYWORD,adsrvmedia,Reject
-  - DOMAIN-KEYWORD,adwords,Reject
-  - DOMAIN-KEYWORD,adservice,Reject
-  - DOMAIN-SUFFIX,appsflyer.com,Reject
-  - DOMAIN-SUFFIX,doubleclick.net,Reject
-  - DOMAIN-KEYWORD,domob,Reject
-  - DOMAIN-KEYWORD,duomeng,Reject
-  - DOMAIN-KEYWORD,dwtrack,Reject
-  - DOMAIN-KEYWORD,guanggao,Reject
-  - DOMAIN-KEYWORD,lianmeng,Reject
-  - DOMAIN-SUFFIX,mmstat.com,Reject
-  - DOMAIN-KEYWORD,mopub,Reject
-  - DOMAIN-KEYWORD,openx,Reject
-  - DOMAIN-KEYWORD,partnerad,Reject
-  - DOMAIN-KEYWORD,supersonicads,Reject
-  - DOMAIN-KEYWORD,umeng,Reject
-  - DOMAIN-SUFFIX,vungle.com,Reject
+# rules:
+#   - DOMAIN-KEYWORD,admarvel,Reject
+#   - DOMAIN-KEYWORD,admaster,Reject
+#   - DOMAIN-KEYWORD,adsage,Reject
+#   - DOMAIN-KEYWORD,adsmogo,Reject
+#   - DOMAIN-KEYWORD,adsrvmedia,Reject
+#   - DOMAIN-KEYWORD,adwords,Reject
+#   - DOMAIN-KEYWORD,adservice,Reject
+#   - DOMAIN-SUFFIX,appsflyer.com,Reject
+#   - DOMAIN-SUFFIX,doubleclick.net,Reject
+#   - DOMAIN-KEYWORD,domob,Reject
+#   - DOMAIN-KEYWORD,duomeng,Reject
+#   - DOMAIN-KEYWORD,dwtrack,Reject
+#   - DOMAIN-KEYWORD,guanggao,Reject
+#   - DOMAIN-KEYWORD,lianmeng,Reject
+#   - DOMAIN-SUFFIX,mmstat.com,Reject
+#   - DOMAIN-KEYWORD,mopub,Reject
+#   - DOMAIN-KEYWORD,openx,Reject
+#   - DOMAIN-KEYWORD,partnerad,Reject
+#   - DOMAIN-KEYWORD,supersonicads,Reject
+#   - DOMAIN-KEYWORD,umeng,Reject
+#   - DOMAIN-SUFFIX,vungle.com,Reject
