@@ -1,0 +1,38 @@
+# =========================
+# 32-proxy-google：Google / YouTube / Android 生态代理
+# =========================
+# Google 账号体系对出口身份一致性比较敏感。
+# 统一归入 Google 组，避免有些子域名走 DIRECT、有些走代理。
+
+rules:
+  # Google 基础服务
+  - DOMAIN-SUFFIX,google.com,Google
+  - DOMAIN-SUFFIX,gstatic.com,Google
+  - DOMAIN-SUFFIX,googleapis.com,Google
+  - DOMAIN-SUFFIX,googleusercontent.com,Google
+  - DOMAIN-SUFFIX,gmail.com,Google
+  - DOMAIN-SUFFIX,google-analytics.com,Google
+  - DOMAIN-SUFFIX,googletagmanager.com,Google
+  - DOMAIN-SUFFIX,googlezip.net,Google
+  - DOMAIN-SUFFIX,firebaseio.com,Google
+  - DOMAIN-SUFFIX,recaptcha.net,Google
+
+  # YouTube
+  - DOMAIN-SUFFIX,youtube.com,Google
+  - DOMAIN-SUFFIX,ytimg.com,Google
+  - DOMAIN-SUFFIX,youtu.be,Google
+  - DOMAIN-SUFFIX,youtube-nocookie.com,Google
+  - DOMAIN-SUFFIX,googlevideo.com,Google
+
+  # Google 下载 / Play 相关
+  - DOMAIN-KEYWORD,gvt1,Google
+  - DOMAIN-SUFFIX,gvt1.com,Google
+  - DOMAIN-SUFFIX,gvt2.com,Google
+  - DOMAIN-SUFFIX,gvt3.com,Google
+  - DOMAIN-SUFFIX,xn--ngstr-gza.com,Google
+  - DOMAIN-SUFFIX,play.google.com,Google
+  - DOMAIN-SUFFIX,play.googleapis.com,Google
+  - DOMAIN-SUFFIX,play-fe.googleapis.com,Google
+  - DOMAIN-SUFFIX,ggpht.com,Google
+  - DOMAIN-SUFFIX,android.clients.google.com,Google
+  - DOMAIN-SUFFIX,dl.google.com,Google

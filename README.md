@@ -18,7 +18,7 @@ vps-tizi
 ## 目录结构
 
 ```
-/etc/yonxao/xray-reality
+./xray-reality
 ├── common/
 │   ├── 01-base.yaml
 │   ├── 02-dns-base.yaml

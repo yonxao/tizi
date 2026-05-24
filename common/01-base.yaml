@@ -1,0 +1,40 @@
+# ------------------------------
+# 1. Mihomo 基础运行模式
+# ------------------------------
+mode: rule                    # 使用规则模式；按 rules **从上到下**匹配，避免全局代理导致国内 App 异常，也避免全局直连泄露国外请求
+mixed-port: 7890              # 本地 HTTP/SOCKS 混合代理端口；浏览器或开发工具手动代理可使用 127.0.0.1:7890
+
+allow-lan: false              # 不允许局域网设备连接本机代理；降低被同网段设备误用或暴露控制面的风险
+bind-address: 127.0.0.1       # 只监听本机回环地址；与 allow-lan:false 配合，避免代理端口暴露到局域网
+ipv6: false                   # 全局关闭 IPv6；目标是稳定和防泄露，若本地 IPv6 未被完整接管，宁可禁用
+
+log-level: info               # 日志级别；info 足够排查规则命中，debug 会泄露更多域名访问细节且噪音大
+
+## unified-delay: true        # 统一延迟测试口径；避免 TCP connect 与完整握手延迟差异导致误选节点；客户端管理
+# TCP 并发连接。对同一个目标可能同时尝试多个 TCP 连接路径，谁先成功就用谁。
+# 这是连接速度优化项，不是防泄露核心项。改善某些站点首次连接慢
+## tcp-concurrent: true
+
+geodata-mode: true            # 启用 geosite/geoip 数据；你的规则中使用 GEOSITE/GEOIP，需要保持开启
+geo-auto-update: true         # 自动更新 geodata；降低规则陈旧导致误分流的概率
+geo-update-interval: 24       # 每 24 小时更新一次 geodata；频率适中，兼顾新鲜度和稳定性
+
+find-process-mode: strict     # 严格识别进程；以后若加 PROCESS-NAME 规则，避免宽松匹配带来误判
+secret: "${MIHOMO_SECRET}"    # 控制器鉴权密钥；当前主要走 Unix Socket，本项仍建议改成随机长字符串
+
+
+
+# ------------------------------
+# 2. 配置持久化
+# ------------------------------
+profile:
+  store-selected: true      # 记住你手动选择的策略组节点；重启后不丢选择
+  ## store-fake-ip: true    # 持久化 fake-ip 映射；减少重启后应用连接旧 fake-ip 失效导致的异常
+
+
+
+# ------------------------------
+# 3. 外部控制器与面板
+# ------------------------------
+external-controller: ""    # 不开启 TCP 控制器；避免 9090 一类控制端口暴露
+

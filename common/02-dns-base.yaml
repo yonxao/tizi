@@ -1,0 +1,58 @@
+# ------------------------------
+# 4. DNS：防泄露核心
+# ------------------------------
+dns:
+  enable: true              # 启用 mihomo 内置 DNS；这是接管系统 DNS、防止应用绕过的前提
+  listen: 127.0.0.1:1053    # DNS 只监听本机；不对局域网开放，降低 DNS 服务被旁路使用的风险
+  respect-rules: true       # DNS 查询也遵守路由规则；国外 DoH 可经 Proxy 出口，避免本地直连国外 DNS
+
+  ipv6: false               # DNS 不返回 AAAA；避免应用优先走 IPv6 而绕过 IPv4 TUN/规则体系
+  prefer-h3: false          # 不强制 HTTP/3 DoH；mihomo 官方提示 respect-rules 不建议与 prefer-h3 混用
+
+  use-hosts: true           # 使用下方 hosts；给 DoH 域名做固定 bootstrap，减少启动阶段外部解析
+  use-system-hosts: false   # 不读取系统 hosts；避免系统层残留/软件写入的 hosts 污染代理 DNS 决策
+  cache-algorithm: arc      # ARC 缓存算法；命中率和内存占用比较均衡，适合长期运行
+
+  default-nameserver:       # 仅用于解析 DoH 服务器域名等 bootstrap 场景；不作为常规查询主力
+    - 223.5.5.5             # 阿里 DNS；国内可达性好，用于启动阶段解析 DNS 服务器域名
+    - 119.29.29.29          # 腾讯 DNS；作为 bootstrap 备份
+
+  nameserver:                                     # 默认 DNS；用于非国内策略域名，显式走 Proxy，避免本地直连 Cloudflare/Google DoH
+    - https://cloudflare-dns.com/dns-query#Proxy  # 国外默认 DoH，经 Proxy 出口访问，避免本地网络看到查询内容和目标 DNS
+    - https://dns.google/dns-query#Proxy          # 国外备用 DoH，同样经 Proxy 出口，提高可用性
+
+  nameserver-policy:                              # 分域名 DNS 策略；让国内域名用国内 DoH，国外域名走上面的代理 DoH
+    "geosite:private,cn":                         # 私有域名与中国大陆域名
+      - https://dns.alidns.com/dns-query#DIRECT   # 国内域名直连国内 DoH，解析结果更适合国内 CDN
+      - https://doh.pub/dns-query#DIRECT          # 腾讯 DoH 备份，避免单点不可用
+    "+.lan":                                      # 局域网域名固定走系统/本地逻辑更稳
+      - system                                    # 使用系统解析，便于发现路由器、NAS、打印机等局域网设备
+    "+.local":                                    # Bonjour/mDNS 场景
+      - system                                    # 保留系统本地发现能力
+
+  proxy-server-nameserver:                        # 解析代理服务器域名用的 DNS；Reality server 当前是 IP，此项主要为未来域名节点兜底
+    - https://dns.alidns.com/dns-query#DIRECT     # 代理节点域名若必须启动前解析，先用国内可达 DoH，避免启动死锁
+    - https://doh.pub/dns-query#DIRECT            # 国内 DoH 备份；只解析代理服务器本身，不解析普通访问域名
+
+  direct-nameserver:                              # DIRECT 流量的 DNS；配合 respect-rules，让直连域名解析走国内 DNS
+    - https://dns.alidns.com/dns-query#DIRECT     # 国内直连域名使用国内解析，得到更近 CDN
+    - https://doh.pub/dns-query#DIRECT            # 备份国内 DoH
+
+
+
+# ------------------------------
+# 5. DNS bootstrap hosts
+# ------------------------------
+hosts:
+  dns.alidns.com:     # 固定阿里 DoH 地址，减少启动时对外部 DNS 的依赖
+    - 223.5.5.5
+    - 223.6.6.6
+  doh.pub:            # 固定腾讯 DoH 地址，作为国内 DoH bootstrap
+    - 1.12.12.12
+    - 120.53.53.53
+  cloudflare-dns.com: # 固定 Cloudflare DoH 地址；实际访问仍由 #Proxy 决定走代理
+    - 1.1.1.1
+    - 1.0.0.1
+  dns.google:         # 固定 Google DoH 地址；实际访问仍由 #Proxy 决定走代理
+    - 8.8.8.8
+    - 8.8.4.4

@@ -1,0 +1,14 @@
+# =========================
+# DNS 模式：redir-host
+# =========================
+# 定位：兼容性优先。
+# 优点：应用拿到真实 IP，某些国内 App、局域网、投屏、微信/QQ 组件更自然。
+# 代价：比 fake-ip 更依赖真实 DNS 解析，防 DNS 泄露能力弱一些。
+
+dns:
+  # redir-host 模式：mihomo 返回真实 IP，再根据规则处理连接。
+  enhanced-mode: redir-host
+
+profile:
+  # redir-host 不需要保存 fake-ip 映射。
+  store-fake-ip: false

@@ -1,0 +1,99 @@
+# =========================
+# 策略组
+# =========================
+# 这里不写具体分流规则，只定义“某类流量可以选择哪些出口”。
+
+proxy-groups:
+  # =========================
+  # 最终出口组
+  # =========================
+  # 未知流量最终进入这里。
+  # 默认 Reality，保留 DIRECT 用于临时排障。
+  - name: Final
+    type: select
+    proxies:
+      - Reality
+      - DIRECT
+
+  # =========================
+  # 国内直连组
+  # =========================
+  # 国内 App / 国内网站 / 局域网默认走 DIRECT。
+  # 保留 Final 是为了个别国内服务临时需要代理时可以 GUI 切换。
+  - name: Domestic
+    type: select
+    proxies:
+      - DIRECT
+      - Final
+
+  # =========================
+  # AI 服务组
+  # =========================
+  # OpenAI / Claude / Perplexity / Poe 等。
+  # 默认走 Final，也就是 Reality。
+  - name: AI
+    type: select
+    proxies:
+      - Final
+      - DIRECT
+
+  # =========================
+  # 开发服务组
+  # =========================
+  # GitHub / Docker / npm / PyPI / JetBrains 等。
+  - name: Developer
+    type: select
+    proxies:
+      - Final
+      - DIRECT
+
+  # =========================
+  # Google / YouTube 组
+  # =========================
+  # Google、YouTube、Play、Gmail、Firebase 等统一出口。
+  - name: Google
+    type: select
+    proxies:
+      - Final
+      - DIRECT
+
+  # =========================
+  # 海外社交通讯组
+  # =========================
+  # Telegram / X / Reddit / Discord 等。
+  - name: Social
+    type: select
+    proxies:
+      - Final
+      - DIRECT
+
+  # =========================
+  # Microsoft 组
+  # =========================
+  # 注意：www.microsoft.com 作为 Reality 伪装域名，会在 rules 里单独 DIRECT。
+  - name: Microsoft
+    type: select
+    proxies:
+      - Final
+      - DIRECT
+
+  # =========================
+  # Apple 组
+  # =========================
+  # 按你原配置保持 DIRECT 优先，兼容 macOS / iCloud / App Store。
+  # 如果以后更重视 Apple 海外账号身份一致性，可以在 GUI 中切到 Final。
+  - name: Apple
+    type: select
+    proxies:
+      - DIRECT
+      - Final
+
+  # =========================
+  # 广告拦截组
+  # =========================
+  # 默认 REJECT；如果某 App 异常，可以临时切 DIRECT 排障。
+  - name: Reject
+    type: select
+    proxies:
+      - REJECT
+      - DIRECT

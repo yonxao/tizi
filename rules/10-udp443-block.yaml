@@ -1,0 +1,16 @@
+# =========================
+# 10-udp443-block：阻断 UDP/443
+# =========================
+# 用于 blockudp443 版本。
+# 作用：阻断 QUIC / HTTP3。
+# 优点：减少 UDP 行为复杂度，便于排查出口一致性和泄露问题。
+# 代价：YouTube / Google / 部分 App 可能少一些 HTTP3 性能收益。
+
+rules:
+  # 阻断所有 UDP/443。
+  - AND,((NETWORK,UDP),(DST-PORT,443)),REJECT
+
+  # Reality 伪装域名。
+  # 这里使用 ${REALITY_SERVERNAME}，由 secrets/env.secret 注入。
+  # 避免换 SNI 时还要手动改 rules 文件。
+  - DOMAIN,${REALITY_SERVERNAME},DIRECT

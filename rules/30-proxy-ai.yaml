@@ -1,0 +1,32 @@
+# =========================
+# 30-proxy-ai：AI 服务代理
+# =========================
+# 这些服务和海外账号风控强相关。
+# 明确归入 AI 组，避免偶尔 DIRECT 造成出口身份漂移。
+
+rules:
+  # OpenAI / ChatGPT
+  - DOMAIN-SUFFIX,chatgpt.com,AI
+  - DOMAIN-SUFFIX,openai.com,AI
+  - DOMAIN-SUFFIX,oaistatic.com,AI
+  - DOMAIN-SUFFIX,oaiusercontent.com,AI
+  - DOMAIN-SUFFIX,files.oaiusercontent.com,AI
+  - DOMAIN,auth0.openai.com,AI
+
+  # OpenAI 页面依赖 / 客服 / 监控
+  - DOMAIN-SUFFIX,intercom.io,AI
+  - DOMAIN-SUFFIX,intercomcdn.com,AI
+  - DOMAIN-SUFFIX,sentry.io,AI
+  - DOMAIN-KEYWORD,sentry,AI
+
+  # Claude / Anthropic
+  - DOMAIN-SUFFIX,anthropic.com,AI
+  - DOMAIN-SUFFIX,claude.ai,AI
+  - DOMAIN-SUFFIX,claude.media,AI
+
+  # 人机验证
+  - DOMAIN-SUFFIX,hcaptcha.com,AI
+
+  # 其他 AI 服务
+  - DOMAIN-SUFFIX,perplexity.ai,AI
+  - DOMAIN-SUFFIX,poe.com,AI

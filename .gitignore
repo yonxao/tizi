@@ -1,10 +1,6 @@
 # 真实密钥和节点参数
-secrets/
-*.secret
-*.secret.yaml
-*.secret.yml
-.env
-env.secret
+#secrets/
+secrets/env.secret
 
 # 生成产物
 dist/

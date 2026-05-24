@@ -1,0 +1,20 @@
+# =========================
+# 90-final：最终兜底规则
+# =========================
+# 这里决定“没命中前面规则的流量”怎么走。
+
+rules:
+  # 中国 IP 兜底。
+  # no-resolve 表示不为了 GEOIP 主动触发 DNS 解析。
+  # 它只处理已经是 IP 的连接，比 GEOSITE,cn 更保守。
+  - GEOIP,CN,Domestic,no-resolve
+
+  # GEOSITE,cn 兼容项。
+  # 你之前实测 browserleaks.com 被 GeoSite(cn) 误判 DIRECT，所以默认不启用。
+  # 如果你非常想复刻旧规则，可取消下一行注释，但不推荐。
+  # - GEOSITE,cn,Domestic
+
+  # 最终兜底。
+  # 未知流量全部进入 Final，默认 Reality。
+  # 这是减少误直连的核心。
+  - MATCH,Final

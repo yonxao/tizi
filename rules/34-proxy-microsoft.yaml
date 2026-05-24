@@ -1,0 +1,12 @@
+# =========================
+# 34-proxy-microsoft：Microsoft 服务
+# =========================
+# 注意：www.microsoft.com 是 Reality 伪装域名，已在 10-udp443-*.yaml 中单独 DIRECT。
+# 其余 Microsoft 服务默认进入 Microsoft 组。
+
+rules:
+  - DOMAIN-SUFFIX,microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,office.com,Microsoft
+  - DOMAIN-SUFFIX,live.com,Microsoft
+  - DOMAIN-SUFFIX,bing.com,Microsoft
+  - DOMAIN-SUFFIX,copilot.microsoft.com,Microsoft

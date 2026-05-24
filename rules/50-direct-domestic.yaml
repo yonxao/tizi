@@ -1,0 +1,57 @@
+# =========================
+# 50-direct-domestic：明确国内直连服务
+# =========================
+# 这里不是 geosite:cn 大规则。
+# 只放你明确知道应该使用中国大陆出口的服务。
+# 这样比 GEOSITE,cn,DIRECT 更可控，减少误直连。
+
+rules:
+  # 国内代码 / AI / 工具服务
+  - DOMAIN-SUFFIX,gitee.com,Domestic
+  - DOMAIN-SUFFIX,gitcode.com,Domestic
+  - DOMAIN-SUFFIX,deepseek.com,Domestic
+  - DOMAIN-SUFFIX,wolai.com,Domestic
+  - DOMAIN-SUFFIX,qiniu.com,Domestic
+  - DOMAIN-SUFFIX,qiniucdn.com,Domestic
+
+  # 国产手机厂商 / 系统服务
+  - DOMAIN-SUFFIX,realme.com,Domestic
+  - DOMAIN-SUFFIX,mi.com,Domestic
+  - DOMAIN-SUFFIX,oppo.com,Domestic
+
+  # 腾讯 / 微信 / QQ
+  - DOMAIN-SUFFIX,qq.com,Domestic
+  - DOMAIN-SUFFIX,wechat.com,Domestic
+  - DOMAIN-SUFFIX,weixin.qq.com,Domestic
+  - DOMAIN-SUFFIX,qqmusic.qq.com,Domestic
+  - DOMAIN-SUFFIX,tencent.com,Domestic
+
+  # 字节 / 国内 AI
+  - DOMAIN-SUFFIX,doubao.com,Domestic
+  - DOMAIN-SUFFIX,douyin.com,Domestic
+  - DOMAIN-SUFFIX,ixigua.com,Domestic
+  - DOMAIN-SUFFIX,qianwen.com,Domestic
+
+  # 阿里 / 支付 / 电商
+  - DOMAIN-SUFFIX,aliyun.com,Domestic
+  - DOMAIN-SUFFIX,taobao.com,Domestic
+  - DOMAIN-SUFFIX,tmall.com,Domestic
+  - DOMAIN-KEYWORD,alicdn,Domestic
+  - DOMAIN-KEYWORD,alipay,Domestic
+
+  # 国内常用网站 / 内容平台
+  - DOMAIN-SUFFIX,baidu.com,Domestic
+  - DOMAIN-SUFFIX,music.163.com,Domestic
+  - DOMAIN-SUFFIX,163.com,Domestic
+  - DOMAIN-SUFFIX,jd.com,Domestic
+  - DOMAIN-SUFFIX,pinduoduo.com,Domestic
+  - DOMAIN-SUFFIX,xiaohongshu.com,Domestic
+  - DOMAIN-SUFFIX,weibo.com,Domestic
+  - DOMAIN-SUFFIX,zhihu.com,Domestic
+  - DOMAIN-SUFFIX,iqiyi.com,Domestic
+  - DOMAIN-SUFFIX,youku.com,Domestic
+  - DOMAIN-SUFFIX,mgtv.com,Domestic
+  - DOMAIN-SUFFIX,v.qq.com,Domestic
+  - DOMAIN-SUFFIX,bilibili.com,Domestic
+  - DOMAIN-SUFFIX,feishu.cn,Domestic
+  - DOMAIN-SUFFIX,10jqka.com.cn,Domestic

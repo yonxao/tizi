@@ -1,0 +1,12 @@
+# =========================
+# 10-udp443-allow：放开 UDP/443
+# =========================
+# 用于 allowudp443 版本。
+# 这里不写“允许规则”，而是不阻断 UDP/443。
+# 作用：允许 QUIC / HTTP3。
+# 适合：性能优先，或确认没有 UDP 泄露问题后的日常使用。
+
+rules:
+  # Reality 伪装域名。
+  # 这里使用 ${REALITY_SERVERNAME}，由 secrets/env.secret 注入。
+  - DOMAIN,${REALITY_SERVERNAME},DIRECT

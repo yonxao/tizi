@@ -1,0 +1,34 @@
+# =========================
+# 00-local：本机 / 局域网 / 私有网络
+# =========================
+# 必须位于 rules 最前面。
+# 原因：你启用了 TUN，全系统流量都可能进入 mihomo。
+# 局域网、路由器、NAS、打印机、AirDrop、Bonjour 等不应该被代理。
+
+rules:
+  # 本机域名
+  - DOMAIN,localhost,Domestic
+
+  # 局域网常见域名后缀
+  - DOMAIN-SUFFIX,local,Domestic
+  - DOMAIN-SUFFIX,lan,Domestic
+
+  # 本机回环地址
+  - IP-CIDR,127.0.0.0/8,Domestic,no-resolve
+
+  # RFC1918 私有地址
+  - IP-CIDR,10.0.0.0/8,Domestic,no-resolve
+  - IP-CIDR,172.16.0.0/12,Domestic,no-resolve
+  - IP-CIDR,192.168.0.0/16,Domestic,no-resolve
+
+  # CGNAT 地址段
+  - IP-CIDR,100.64.0.0/10,Domestic,no-resolve
+
+  # 链路本地地址
+  - IP-CIDR,169.254.0.0/16,Domestic,no-resolve
+
+  # 多播地址，mDNS / Bonjour 等可能使用
+  - IP-CIDR,224.0.0.0/4,Domestic,no-resolve
+
+  # IPv6 链路本地地址
+  - IP-CIDR6,fe80::/10,Domestic,no-resolve

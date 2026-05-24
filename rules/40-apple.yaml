@@ -1,0 +1,13 @@
+# =========================
+# 40-apple：Apple 服务
+# =========================
+# 按你原规则，Apple 默认直连。
+# 原因：macOS、iCloud、App Store、系统服务直连通常兼容性更好。
+# 如果未来更重视海外 Apple ID 身份一致性，可以在 GUI 中把 Apple 组切到 Final。
+
+rules:
+  - DOMAIN-SUFFIX,apple.com,Apple
+  - DOMAIN-SUFFIX,icloud.com,Apple
+  - DOMAIN-SUFFIX,me.com,Apple
+  - DOMAIN-SUFFIX,itunes.com,Apple
+  - DOMAIN-SUFFIX,mzstatic.com,Apple

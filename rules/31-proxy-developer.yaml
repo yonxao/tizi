@@ -1,0 +1,47 @@
+# =========================
+# 31-proxy-developer：开发相关服务代理
+# =========================
+# 这些服务经常受 DNS 污染、连接重置、下载失败影响。
+# 明确代理可提升稳定性。
+
+rules:
+  # GitHub / GitLab
+  - DOMAIN-SUFFIX,github.com,Developer
+  - DOMAIN-SUFFIX,githubusercontent.com,Developer
+  - DOMAIN-SUFFIX,githubassets.com,Developer
+  - DOMAIN-SUFFIX,gitlab.com,Developer
+
+  # Docker
+  - DOMAIN-SUFFIX,docker.com,Developer
+  - DOMAIN-SUFFIX,docker.io,Developer
+  - DOMAIN-SUFFIX,dockerusercontent.com,Developer
+
+  # Node / Python
+  - DOMAIN-SUFFIX,npmjs.com,Developer
+  - DOMAIN-SUFFIX,nodejs.org,Developer
+  - DOMAIN-SUFFIX,python.org,Developer
+  - DOMAIN-SUFFIX,pypi.org,Developer
+  - DOMAIN-SUFFIX,pythonhosted.org,Developer
+
+  # AI / 模型 / 部署平台
+  - DOMAIN-SUFFIX,huggingface.co,Developer
+  - DOMAIN-SUFFIX,vercel.com,Developer
+  - DOMAIN-SUFFIX,netlify.app,Developer
+
+  # IDE / 开发工具
+  - DOMAIN-SUFFIX,cursor.sh,Developer
+  - DOMAIN-SUFFIX,cursor.com,Developer
+  - DOMAIN-SUFFIX,visualstudio.com,Developer
+  - DOMAIN-SUFFIX,vscode.dev,Developer
+  - DOMAIN-SUFFIX,warp.dev,Developer
+
+  # Java / Maven / Gradle / Apache / JetBrains
+  - DOMAIN-SUFFIX,spring.io,Developer
+  - DOMAIN-SUFFIX,openjdk.org,Developer
+  - DOMAIN-SUFFIX,maven.org,Developer
+  - DOMAIN-SUFFIX,sonatype.org,Developer
+  - DOMAIN-SUFFIX,sonatype.com,Developer
+  - DOMAIN-SUFFIX,apache.org,Developer
+  - DOMAIN-SUFFIX,gradle.org,Developer
+  - DOMAIN-SUFFIX,jetbrains.com,Developer
+  - DOMAIN-SUFFIX,jetbrains.net,Developer

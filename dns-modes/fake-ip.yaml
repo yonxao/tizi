@@ -1,0 +1,41 @@
+# =========================
+# DNS 模式：fake-ip
+# =========================
+# 定位：防 DNS 泄露优先、TUN 全局接管、规则行为更可控。
+# 代价：部分 App、局域网服务、投屏、NTP 可能需要 fake-ip-filter。
+
+dns:
+  enhanced-mode: fake-ip                # 使用 fake-ip；应用先拿到虚拟 IP，真实解析由 mihomo 按规则处理，减少 DNS 泄露面
+  fake-ip-range: "198.18.0.1/16"        # fake-ip 地址池；198.18.0.0/15 是基准测试保留段，常用于代理虚拟地址
+  
+  # fake-ip 过滤列表。命中的域名不返回 fake-ip，而是返回真实解析结果，提高兼容性。
+  fake-ip-filter:                       # 不适合 fake-ip 的域名；这些服务依赖真实 IP、局域网发现、时间同步或特殊回环逻辑
+    # 局域网 / 本地域名
+    - "+.lan"                           # 局域网域名必须真实解析/直连
+    - "+.local"                         # mDNS/Bonjour 本地域名必须真实解析/直连
+    - "+.localhost"                     # 本机域名不应生成 fake-ip
+    - "localhost"                       # 本机 hostname 保持原样
+    
+    # 反向解析域名
+    - "+.in-addr.arpa"                  # 反向 IPv4 PTR 查询不使用 fake-ip
+    - "+.ip6.arpa"                      # 反向 IPv6 PTR 查询不使用 fake-ip
+    
+     # Windows / Android / 系统连通性检测
+    - "+.msftconnecttest.com"           # Windows/微软连通性检测，fake-ip 可能导致误判网络状态
+    - "+.msftncsi.com"                  # Windows NCSI 检测，保持真实解析更稳定
+    
+    # 时间同步
+    - "time.*.com"                      # 常见时间同步域名；NTP/时间检测类服务不适合 fake-ip
+    - "time.*.gov"                      # 政府时间服务；同上
+    - "time.*.edu.cn"                   # 国内教育网时间服务；同上
+    - "pool.ntp.org"                    # NTP 池；时间同步一般应直连或真实解析
+    - "ntp.*.com"                       # 常见 NTP 域名；避免 fake-ip 影响时间校准
+    
+    # QQ / 微信的一些 localhost 特例
+    - "localhost.ptlogin2.qq.com"       # QQ 登录组件常见特殊域名；参考配置保留，降低腾讯系异常
+    - "localhost.sec.qq.com"            # QQ 安全组件常见特殊域名；同上
+    - "localhost.work.weixin.qq.com"    # 企业微信本地回环逻辑；避免 fake-ip 破坏本地通信
+
+
+profile:
+  store-fake-ip: true                   # 持久化 fake-ip 映射；减少重启后应用连接旧 fake-ip 失效导致的异常

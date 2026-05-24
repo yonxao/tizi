@@ -1,0 +1,53 @@
+# =========================
+# Mac 客户端覆盖配置
+# =========================
+# 这个文件只放 Mac / Clash Verge Rev 特有配置。
+# 不要在这里写 rules，否则会覆盖 build.sh 自动合并出来的 rules。
+
+# Mac Clash Verge Rev 通常使用 Unix Socket 控制器。
+external-controller: 127.0.0.1:9999
+## external-controller-unix: /tmp/verge/verge-mihomo.sock ## 客户端管理
+
+# 允许 Clash Verge / WebUI 访问控制器。 ## 客户端管理
+## external-controller-cors:
+##   allow-private-network: true
+##   allow-origins:
+##     - tauri://localhost
+##     - http://tauri.localhost
+##     - https://yacd.metacubex.one
+##     - https://metacubex.github.io
+##     - https://board.zash.run.place
+
+tun:
+  # 启用 TUN，全局接管系统网络。
+  ## enable: true  ## macOS 用户通常通过 WebUI 启用 TUN，这里保持默认关闭，避免冲突
+
+  # macOS 推荐 system 栈。
+  stack: system
+
+  # Clash Verge 常见 utun 设备名。
+  # 如果 GUI 覆盖这个值，一般也没问题。
+  ## device: utun1024  ## macOS TUN 设备名；通常是 utun0、utun1 等，Clash Verge Rev 默认 utun1024，保持兼容
+
+  # 自动添加路由。
+  auto-route: true
+
+  # 严格路由，减少绕过 TUN 的可能。
+  strict-route: true
+
+  # 自动检测当前出口网卡。
+  auto-detect-interface: true
+
+  # DNS 劫持。
+  # Clash Verge 可能会把 udp/tcp 明确写法重写成 any:53。
+  # 这里保持兼容写法。
+  dns-hijack:
+    - any:53
+
+  # TUN MTU。
+  # 1400 是相对保守的值，适合复杂网络环境。
+  mtu: 1400
+
+  # 排除路由。
+  # 当前不排除任何地址。
+  route-exclude-address: []

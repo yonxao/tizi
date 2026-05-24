@@ -1,0 +1,25 @@
+# =========================
+# 33-proxy-social：海外社交 / 通讯
+# =========================
+# 这些服务不适合出口漂移，统一代理。
+
+rules:
+  # X / Twitter
+  - DOMAIN-SUFFIX,x.com,Social
+  - DOMAIN-SUFFIX,twitter.com,Social
+  - DOMAIN-SUFFIX,twimg.com,Social
+
+  # Telegram
+  - DOMAIN-SUFFIX,telegram.org,Social
+  - DOMAIN-SUFFIX,t.me,Social
+
+  # Reddit
+  - DOMAIN-SUFFIX,reddit.com,Social
+  - DOMAIN-SUFFIX,redd.it,Social
+
+  # Discord
+  - DOMAIN-SUFFIX,discord.com,Social
+  - DOMAIN-SUFFIX,discord.gg,Social
+
+  # LarkSuite 国际版
+  - DOMAIN-SUFFIX,larksuite.com,Social

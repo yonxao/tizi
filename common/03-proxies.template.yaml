@@ -1,0 +1,23 @@
+# =========================
+# 代理节点模板
+# =========================
+# 这个文件可以提交 Git，因为它只包含变量占位符，不包含真实密钥。
+# build.sh 会从 secrets/env.secret 读取真实值，然后用 envsubst 渲染成临时 YAML。
+
+proxies:
+  - name: "${REALITY_NAME}"              # 节点名称，会显示在 Clash Verge 策略组里
+    type: vless                          # Reality 常用 VLESS
+    server: "${REALITY_SERVER}"          # VPS IP 或域名
+    port: ${REALITY_PORT}                # Reality 入站端口
+    uuid: "${REALITY_UUID}"              # VLESS UUID
+    network: tcp                         # Reality 使用 TCP
+    tls: true                            # Reality 依赖 TLS
+    udp: true                            # 允许节点转发 UDP；不是“强制所有 UDP 代理”
+    flow: xtls-rprx-vision               # Vision 流控
+    servername: "${REALITY_SERVERNAME}"  # Reality 伪装目标 SNI
+    client-fingerprint: chrome           # 客户端 TLS 指纹，模拟 Chrome
+
+    reality-opts:
+      public-key: "${REALITY_PUBLIC_KEY}" # Reality public-key
+      short-id: "${REALITY_SHORT_ID}"     # Reality short-id
+
