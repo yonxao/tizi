@@ -96,4 +96,5 @@ proxy-groups:
     type: select
     proxies:
       - REJECT
+      - Final
       - DIRECT
