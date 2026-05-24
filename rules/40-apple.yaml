@@ -6,8 +6,64 @@
 # 如果未来更重视海外 Apple ID 身份一致性，可以在 GUI 中把 Apple 组切到 Final。
 
 rules:
+  # Apple Basic
   - DOMAIN-SUFFIX,apple.com,Apple
+  - DOMAIN-SUFFIX,apple.com.cn,Apple
+  - DOMAIN-SUFFIX,apple-cloudkit.com,Apple
+  - DOMAIN-SUFFIX,apple-mapkit.com,Apple
+  - DOMAIN-SUFFIX,cdn-apple.com,Apple
+  - DOMAIN-SUFFIX,apple-dns.net,Apple
+  - DOMAIN-SUFFIX,apple.news,Apple
+
+  # iCloud
   - DOMAIN-SUFFIX,icloud.com,Apple
+  - DOMAIN-SUFFIX,icloud.com.cn,Apple
+  - DOMAIN-SUFFIX,icloud-content.com,Apple
   - DOMAIN-SUFFIX,me.com,Apple
+  - DOMAIN-SUFFIX,mac.com,Apple
+
+  # App Store / iTunes / Apple Music
+  - DOMAIN-SUFFIX,apps.apple.com,Apple
+  - DOMAIN-SUFFIX,itunes.apple.com,Apple
   - DOMAIN-SUFFIX,itunes.com,Apple
+  - DOMAIN-SUFFIX,music.apple.com,Apple
   - DOMAIN-SUFFIX,mzstatic.com,Apple
+  - DOMAIN-SUFFIX,itunes-apple.com.akadns.net,Apple
+
+  # Software Update
+  - DOMAIN-SUFFIX,swcdn.apple.com,Apple
+  - DOMAIN-SUFFIX,swdist.apple.com,Apple
+  - DOMAIN-SUFFIX,swdownload.apple.com,Apple
+  - DOMAIN-SUFFIX,swscan.apple.com,Apple
+  - DOMAIN-SUFFIX,updates.cdn-apple.com,Apple
+  - DOMAIN-SUFFIX,updates-http.cdn-apple.com,Apple
+  - DOMAIN-SUFFIX,appldnld.apple.com,Apple
+
+  # APNs / Setup / Activation
+  - DOMAIN-SUFFIX,push.apple.com,Apple
+  - DOMAIN-SUFFIX,ess.apple.com,Apple
+  - DOMAIN-SUFFIX,setup.icloud.com,Apple
+  - DOMAIN-SUFFIX,init.itunes.apple.com,Apple
+  - DOMAIN-SUFFIX,iosapps.itunes.apple.com,Apple
+  - DOMAIN-SUFFIX,osxapps.itunes.apple.com,Apple
+
+  # Certificate / Validation / Privacy / Diagnostics
+  - DOMAIN-SUFFIX,appattest.apple.com,Apple
+  - DOMAIN-SUFFIX,valid.apple.com,Apple
+  - DOMAIN-SUFFIX,ocsp.apple.com,Apple
+  - DOMAIN-SUFFIX,crl.apple.com,Apple
+  - DOMAIN-SUFFIX,certs.apple.com,Apple
+  - DOMAIN-SUFFIX,diagassets.apple.com,Apple
+  - DOMAIN-SUFFIX,doh.dns.apple.com,Apple
+  - DOMAIN-SUFFIX,mask.icloud.com,Apple
+  - DOMAIN-SUFFIX,mask-h2.icloud.com,Apple
+
+  # Apple CDN / Akamai
+  - DOMAIN-SUFFIX,aaplimg.com,Apple
+  - DOMAIN-SUFFIX,apple.com.edgekey.net,Apple
+  - DOMAIN-SUFFIX,apple.com.edgekey.net.globalredir.akadns.net,Apple
+  - DOMAIN-SUFFIX,apple-support.akadns.net,Apple
+  - DOMAIN-SUFFIX,appldnld.apple.com.edgesuite.net,Apple
+
+  # ==================== 苹果整段 A 类 IP（极为关键） ====================
+  ## - IP-CIDR,17.0.0.0/8,DIRECT,no-resolve
