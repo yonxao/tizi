@@ -1,0 +1,9 @@
+# =========================
+# 01-vps-direct：VPS 管理连接直连
+# =========================
+# 作用：SSH 到自己的 VPS 时强制直连，避免 TUN 把 SSH 流量代理回同一台 VPS。
+# 适用：Mac 开启虚拟网卡 / TUN 后，ssh root@VPS_IP 卡顿或异常。
+# 注意：这里只适合写自己的 VPS 管理 IP。
+
+rules:
+  - IP-CIDR,${VPS_MANAGE_IP}/32,DIRECT,no-resolve

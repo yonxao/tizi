@@ -147,6 +147,7 @@ check_required_files() {
 
     # 检查规则片段。
     check_file "$RULES_DIR/00-local.yaml"
+    check_file "$RULES_DIR/01-vps-direct.yaml"
     check_file "$RULES_DIR/10-udp443-block.yaml"
     check_file "$RULES_DIR/10-udp443-allow.yaml"
     check_file "$RULES_DIR/20-reject.yaml"
@@ -186,6 +187,7 @@ load_secrets() {
     : "${REALITY_PUBLIC_KEY:?REALITY_PUBLIC_KEY 未设置}"
     : "${REALITY_SHORT_ID:?REALITY_SHORT_ID 未设置}"
     : "${MIHOMO_SECRET:?MIHOMO_SECRET 未设置}"
+    : "${VPS_MANAGE_IP:?VPS_MANAGE_IP 未设置}"
 
     # =========================
     # 输出目录与权限
@@ -219,6 +221,7 @@ load_secrets() {
     export REALITY_PUBLIC_KEY
     export REALITY_SHORT_ID
     export MIHOMO_SECRET
+    export VPS_MANAGE_IP
 
     # 输出目录通常不需要注入 YAML，但导出无害，方便以后扩展模板。
     export MIHOMO_OUT_DIR="${MIHOMO_OUT_DIR:-$OUT_DIR}"
@@ -306,6 +309,7 @@ build_rules_file() {
 
     # 手动清理，避免嵌套 trap 互相覆盖。
     local rendered_00="$rules_tmp_dir/00-local.yaml"
+    local rendered_01="$rules_tmp_dir/01-vps-direct.yaml"
     local rendered_10="$rules_tmp_dir/10-udp443.yaml"
     local rendered_20="$rules_tmp_dir/20-reject.yaml"
     local rendered_30="$rules_tmp_dir/30-proxy-ai.yaml"
@@ -318,8 +322,10 @@ build_rules_file() {
     local rendered_90="$rules_tmp_dir/90-final.yaml"
 
     # 所有 rules 片段都先经过 envsubst。
-    # 目前主要是 10-udp443-*.yaml 里的 ${REALITY_SERVERNAME} 需要替换。
+    # 01-vps-direct.yaml 会使用 ${VPS_MANAGE_IP}
+    # 10-udp443-*.yaml 会使用 ${REALITY_SERVERNAME}
     render_template "$RULES_DIR/00-local.yaml" "$rendered_00"
+    render_template "$RULES_DIR/01-vps-direct.yaml" "$rendered_01"
     render_template "$network_control_file" "$rendered_10"
     render_template "$RULES_DIR/20-reject.yaml" "$rendered_20"
     render_template "$RULES_DIR/30-proxy-ai.yaml" "$rendered_30"
@@ -332,14 +338,13 @@ build_rules_file() {
     render_template "$RULES_DIR/90-final.yaml" "$rendered_90"
 
     # 合并所有 rules 数组。
-    # 每个 rules/*.yaml 的结构都是：
-    # rules:
-    #   - ...
+    # 注意：01-vps-direct 必须放在 00-local 后、10-udp443 前。
     yq eval-all '
       . as $item ireduce ([]; . + ($item.rules // []))
       | {"rules": .}
     ' \
       "$rendered_00" \
+      "$rendered_01" \
       "$rendered_10" \
       "$rendered_20" \
       "$rendered_30" \
