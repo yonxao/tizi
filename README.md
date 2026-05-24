@@ -1,7 +1,7 @@
 # tizi
 vps-tizi
 
-## 总体分案
+## 总体方案
 
 - 三维矩阵：**客户端类型 × UDP策略 × DNS增强模式**。
 
@@ -44,7 +44,8 @@ vps-tizi
 │   ├── mac.yaml
 │   └── android.yaml
 ├── secrets/
-│   └── env.secret
+│   └── tmeplate.env.secret
+│   └── env.secret（此文件需要根据同目录下的模板创建）
 ├── build.sh
 ├── .gitignore
 └── README.md
@@ -60,7 +61,48 @@ vps-tizi
 
 
 
+输出目录
 
+```
+├── out
+│   ├── mihomo-android-fakeip-allowudp443
+│   ├── mihomo-android-fakeip-blockudp443
+│   ├── mihomo-android-redirhost-allowudp443
+│   ├── mihomo-android-redirhost-blockudp443
+│   ├── mihomo-mac-fakeip-allowudp443
+│   ├── mihomo-mac-fakeip-blockudp443
+│   ├── mihomo-mac-redirhost-allowudp443
+│   └── mihomo-mac-redirhost-blockudp443
+```
+
+
+
+
+
+
+
+## 脚本
+
+1. 脚本执行权限。
+   - `chmod +x ./build.sh`。
+   
+2. 需要安装两个插件
+    1. yq    用来合并、解析、格式化 YAML
+    2. envsubst 用来把 `${REALITY_UUID}`、`${REALITY_SERVERNAME}` 这类变量替换成 env.secret 里的真实值
+    
+    ```bash
+    sudo apt update
+    sudo apt install -y git wget gettext-base
+    
+    sudo wget -O /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+    sudo chmod +x /usr/local/bin/yq
+    
+    yq --version
+    envsubst --version
+    git --version
+    ```
+    
+    不要用：sudo apt install yq，因为有些系统源里的 `yq` 不是 Mike Farah v4。
 
 
 
