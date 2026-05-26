@@ -1,32 +1,275 @@
 # =========================
 # 30-proxy-ai：AI 服务代理
 # =========================
-# 这些服务和海外账号风控强相关。
-# 明确归入 AI 组，避免偶尔 DIRECT 造成出口身份漂移。
+# 来源参考：MetaCubeX meta-rules-dat 的 category-ai-!cn 列表。
+# https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.yaml
+# 作用：把海外 AI 服务、AI IDE、AI API、模型平台、AI 静态资源统一走 AI 策略组。
+# 思路：
+# 1. AI 账号和 API 服务对出口身份比较敏感，优先代理。明确归入 AI 组，避免偶尔 DIRECT 造成出口身份漂移。
+# 2. AI 网页通常依赖多套 CDN、对象存储、鉴权、实时通信、日志监控域名，需要一起代理。
+# 3. 远程列表里的 +.example.com 已转换为 DOMAIN-SUFFIX,example.com,AI。
+# 4. 远程列表里的精确主机名已转换为 DOMAIN,example.com,AI。
 
+### 三个#号是 Little Snitch 里监控到的域名，说明这些域名在实际使用中被访问过，优先确认并添加到规则里。
+# 其他没有#号的域名是从远程列表转换来的，可能需要后续根据实际访问情况调整。
 rules:
-  # OpenAI / ChatGPT
-  - DOMAIN-SUFFIX,chatgpt.com,AI
-  - DOMAIN-SUFFIX,openai.com,AI
-  - DOMAIN-SUFFIX,oaistatic.com,AI
-  - DOMAIN-SUFFIX,oaiusercontent.com,AI
-  - DOMAIN-SUFFIX,files.oaiusercontent.com,AI
+
+  # =========================
+  # OpenAI / ChatGPT / Sora
+  # =========================
+  # ChatGPT 主站、OpenAI API、静态资源、用户上传内容、Sora、OpenAI CDN / Azure 存储相关域名。
+  - DOMAIN-SUFFIX,chatgpt.com,AI ###
+  - DOMAIN-SUFFIX,openai.com,AI ###
   - DOMAIN,auth0.openai.com,AI
+  - DOMAIN-SUFFIX,auth.openai.com,AI ###
+  - DOMAIN-SUFFIX,oaistatic.com,AI ###
+  - DOMAIN-SUFFIX,oaiusercontent.com,AI ###
 
-  # OpenAI 页面依赖 / 客服 / 监控
-  - DOMAIN-SUFFIX,intercom.io,AI
-  - DOMAIN-SUFFIX,intercomcdn.com,AI
-  - DOMAIN-SUFFIX,sentry.io,AI
-  - DOMAIN-KEYWORD,sentry,AI
+  - DOMAIN-SUFFIX,sora.com,AI
+  - DOMAIN-SUFFIX,openai.com.cdn.cloudflare.net,AI
+  - DOMAIN,openaiapi-site.azureedge.net,AI
+  - DOMAIN,openaicom-api-bdcpf8c6d2e9atf6.z01.azurefd.net,AI
+  - DOMAIN,openaicom.imgix.net,AI
+  - DOMAIN,openaicomproductionae4b.blob.core.windows.net,AI
+  - DOMAIN,production-openaicom-storage.azureedge.net,AI
+  - DOMAIN-SUFFIX,livekit.cloud,AI
+  - DOMAIN-SUFFIX,chat.com,AI
 
+  # =========================
   # Claude / Anthropic
-  - DOMAIN-SUFFIX,anthropic.com,AI
-  - DOMAIN-SUFFIX,claude.ai,AI
+  # =========================
+  # Claude 主站、Anthropic API、Claude 附件/内容域名、Claude MCP 客户端相关域名。
+  - DOMAIN-SUFFIX,anthropic.com,AI ###
+  - DOMAIN-SUFFIX,claude.ai,AI ###
+
+  - DOMAIN-SUFFIX,claude.com,AI
   - DOMAIN-SUFFIX,claude.media,AI
+  - DOMAIN-SUFFIX,claudeusercontent.com,AI
+  - DOMAIN-SUFFIX,claudemcpclient.com,AI
+  - DOMAIN-SUFFIX,clau.de,AI
+  - DOMAIN,servd-anthropic-website.b-cdn.net,AI
+
+  - DOMAIN-SUFFIX,browser-intake-us5-datadoghq.com ### Claude APP 监控域名
+
+  # =========================
+  # 遥测 / 日志 / 风控相关依赖
+  # =========================
+  # AI 服务可能依赖的 Sentry、Datadog、LivePerson 相关域名。
+  # 注意：这些域名有一定泛用性，放在 AI 里是为了避免 AI 页面依赖被误直连或误拦。
+  # AI 页面依赖 / 客服 / 监控
+  - DOMAIN-SUFFIX,sentry.io,AI ### 通用遥测网站，但 OpenAI / Claude 依赖较重，放在 AI 里。
+  - DOMAIN-SUFFIX,datadoghq.com,AI ### 同上，Claude APP 监控域名。
+  - DOMAIN-SUFFIX,intercom.io,AI ### OpenAI 和 Claude 都使用 Intercom 作为客服系统，放在 AI 里避免误直连。
+  - DOMAIN-SUFFIX,intercomcdn.com,AI ### 同上，Intercom 静态资源域名。
+  - DOMAIN-SUFFIX,segment.io,AI ### OpenAI 依赖的用户分析服务，放在 AI 里避免误直连。
+
+  - DOMAIN-SUFFIX,browser-intake-datadoghq.com,AI
+  - DOMAIN-SUFFIX,liveperson.net,AI
+  - DOMAIN-SUFFIX,lpsnmedia.net,AI
+
+  # =========================
+  # Google AI / Gemini / NotebookLM / AI Studio / DeepMind / Jules / Opal / Antigravity
+  # =========================
+  # Google AI 生态很分散，包含 Gemini、AI Studio、NotebookLM、DeepMind、Jules、Opal、Antigravity、Cloud Code 等。
+  - DOMAIN-SUFFIX,gemini.google,AI
+  - DOMAIN-SUFFIX,antigravity.google,AI
+  - DOMAIN-SUFFIX,antigravity-unleash.goog,AI
+  - DOMAIN-SUFFIX,deepmind.google,AI
+  - DOMAIN-SUFFIX,opal.google,AI
+  - DOMAIN-SUFFIX,labs.google,AI
+  - DOMAIN-SUFFIX,generativeai.google,AI
+  - DOMAIN-SUFFIX,jules.google,AI
+  - DOMAIN-SUFFIX,notebooklm.google,AI
+  - DOMAIN-SUFFIX,ai.studio,AI
+  - DOMAIN-SUFFIX,deepmind.com,AI
+  - DOMAIN,ai.google.dev,AI
+  - DOMAIN,alkalicore-pa.clients6.google.com,AI
+  - DOMAIN,alkalimakersuite-pa.clients6.google.com,AI
+  - DOMAIN,webchannel-alkalimakersuite-pa.clients6.google.com,AI
+  - DOMAIN,cloudaicompanion.googleapis.com,AI
+  - DOMAIN,cloudcode-pa.googleapis.com,AI
+  - DOMAIN,daily-cloudcode-pa.googleapis.com,AI
+  - DOMAIN,notebooklm-pa.googleapis.com,AI
+  - DOMAIN,notebooklm.googleapis.com,AI
+  - DOMAIN,antigravity-pa.googleapis.com,AI
+  - DOMAIN,antigravity.googleapis.com,AI
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com,AI
+  - DOMAIN-SUFFIX,geller-pa.googleapis.com,AI
+  - DOMAIN-SUFFIX,makersuite.google.com,AI
+  - DOMAIN-SUFFIX,opal.google.com,AI
+  - DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com,AI
+  - DOMAIN-SUFFIX,notebooklm.google.com,AI
+  - DOMAIN-SUFFIX,aicode.googleapis.com,AI
+  - DOMAIN-SUFFIX,aisandbox-pa.googleapis.com,AI
+  - DOMAIN-SUFFIX,bard.google.com,AI
+  - DOMAIN-SUFFIX,jules.google.com,AI
+  - DOMAIN-SUFFIX,aistudio.google.com,AI
+  - DOMAIN-SUFFIX,aida.googleapis.com,AI
+  - DOMAIN-SUFFIX,stitch.withgoogle.com,AI
+  - DOMAIN-SUFFIX,labs.google.com,AI
+  - DOMAIN-SUFFIX,gemini.google.com,AI
+  - DOMAIN-SUFFIX,robinfrontend-pa.googleapis.com,AI
+
+  # =========================
+  # GitHub Copilot
+  # =========================
+  # GitHub Copilot、Copilot Workspace、附件、遥测与 GitHub Copilot 专用资源。
+  - DOMAIN-SUFFIX,githubcopilot.com,AI
+  - DOMAIN,copilot-proxy.githubusercontent.com,AI
+  - DOMAIN,copilot-workspace.githubnext.com,AI
+  - DOMAIN,copilotprodattachments.blob.core.windows.net,AI
+  - DOMAIN,copilot-telemetry-service.githubusercontent.com,AI
+  - DOMAIN,copilot-telemetry.githubusercontent.com,AI
+
+  # =========================
+  # Microsoft Copilot
+  # =========================
+  # Microsoft Copilot 主域名。其余 Microsoft 普通服务仍可在 Microsoft 组维护。
+  - DOMAIN-SUFFIX,copilot.microsoft.com,AI
+
+  # =========================
+  # Perplexity / Poe
+  # =========================
+  # Perplexity、Poe 及其资源 CDN / 上传域名。
+  - DOMAIN-SUFFIX,perplexity.ai,AI
+  - DOMAIN-SUFFIX,perplexity.com,AI
+  - DOMAIN-SUFFIX,pplx.ai,AI
+  - DOMAIN-SUFFIX,poe.com,AI
+  - DOMAIN-SUFFIX,poecdn.net,AI
+  - DOMAIN,ppl-ai-file-upload.s3.amazonaws.com,AI
+  - DOMAIN,pplx-res.cloudinary.com,AI
+
+  # =========================
+  # xAI / Grok
+  # =========================
+  # xAI、Grok 主站及 X 内嵌 Grok。
+  - DOMAIN-SUFFIX,x.ai,AI
+  - DOMAIN-SUFFIX,grok.com,AI
+  - DOMAIN-SUFFIX,grok.x.com,AI
+
+  # =========================
+  # Cursor / Windsurf / Codeium / CodeRabbit
+  # =========================
+  # AI IDE、AI 编程助手、代码审查服务。注意：这些域名也可能出现在 Developer 规则中。
+  # 因为你的 rules 顺序里 AI 在 Developer 前面，所以这些会优先归入 AI。
+  - DOMAIN-SUFFIX,cursor.com,AI
+  - DOMAIN-SUFFIX,cursor.sh,AI
+  - DOMAIN-SUFFIX,cursorapi.com,AI
+  - DOMAIN-SUFFIX,cursor-cdn.com,AI
+  - DOMAIN-SUFFIX,windsurf.com,AI
+  - DOMAIN-SUFFIX,windsurf.build,AI
+  - DOMAIN-SUFFIX,codeium.com,AI
+  - DOMAIN-SUFFIX,codeiumdata.com,AI
+  - DOMAIN-SUFFIX,coderabbit.ai,AI
+  - DOMAIN,coderabbit.gallery.vsassets.io,AI
+
+  # =========================
+  # Hugging Face
+  # =========================
+  # 模型、Spaces、短域名等 Hugging Face 相关服务。
+  - DOMAIN-SUFFIX,huggingface.co,AI
+  - DOMAIN-SUFFIX,hf.co,AI
+  - DOMAIN-SUFFIX,hf.space,AI
+
+  # =========================
+  # 主流模型/API 平台
+  # =========================
+  # Cohere、Mistral、Groq、Cerebras、OpenRouter、Cloudflare AI Gateway 等。
+  - DOMAIN-SUFFIX,cohere.com,AI
+  - DOMAIN-SUFFIX,cohere.ai,AI
+  - DOMAIN-SUFFIX,mistral.ai,AI
+  - DOMAIN-SUFFIX,groq.com,AI
+  - DOMAIN-SUFFIX,cerebras.ai,AI
+  - DOMAIN-SUFFIX,openrouter.ai,AI
+  - DOMAIN-SUFFIX,gateway.ai.cloudflare.com,AI
+
+  # =========================
+  # AI 应用开发 / Agent / 工作流
+  # =========================
+  # Dify、LangChain、CrewAI、Devin、AnythingLLM、Ollama、LM Studio、OpenSpec 等。
+  - DOMAIN-SUFFIX,dify.ai,AI
+  - DOMAIN-SUFFIX,langchain.com,AI
+  - DOMAIN-SUFFIX,crewai.com,AI
+  - DOMAIN-SUFFIX,devin.ai,AI
+  - DOMAIN-SUFFIX,anythingllm.com,AI
+  - DOMAIN-SUFFIX,lmstudio.ai,AI
+  - DOMAIN-SUFFIX,ollama.com,AI
+  - DOMAIN-SUFFIX,openspec.dev,AI
+  - DOMAIN-SUFFIX,agentclientprotocol.com,AI
+  - DOMAIN-SUFFIX,chutes.ai,AI
+  - DOMAIN-SUFFIX,clawhub.ai,AI
+  - DOMAIN-SUFFIX,openclaw.ai,AI
+
+  # =========================
+  # 图像 / 设计 / 语音 / 创作类 AI
+  # =========================
+  # Clipdrop、Jasper、OpenArt、Lovart、ElevenLabs、SpicyWriter 等。
+  - DOMAIN-SUFFIX,clipdrop.co,AI
+  - DOMAIN-SUFFIX,jasper.ai,AI
+  - DOMAIN-SUFFIX,openart.ai,AI
+  - DOMAIN-SUFFIX,lovart.ai,AI
+  - DOMAIN-SUFFIX,elevenlabs.io,AI
+  - DOMAIN-SUFFIX,elevenlabs.com,AI
+  - DOMAIN-SUFFIX,spicywriter.com,AI
+  - DOMAIN-SUFFIX,plannotator.ai,AI
+  - DOMAIN-SUFFIX,tapnow.ai,AI
+
+  # =========================
+  # Manus / YouMind / 其他 AI 应用
+  # =========================
+  # Manus、YouMind、Meta AI、Duck AI、Mozilla AI、H2O AI、Kiro 等。
+  - DOMAIN-SUFFIX,manus.im,AI
+  - DOMAIN-SUFFIX,manuscdn.com,AI
+  - DOMAIN-SUFFIX,youmind.ai,AI
+  - DOMAIN-SUFFIX,youmind.com,AI
+  - DOMAIN-SUFFIX,youmind.site,AI
+  - DOMAIN-SUFFIX,meta.ai,AI
+  - DOMAIN-SUFFIX,duck.ai,AI
+  - DOMAIN-SUFFIX,mozilla.ai,AI
+  - DOMAIN-SUFFIX,h2o.ai,AI
+  - DOMAIN-SUFFIX,kiro.dev,AI
+  - DOMAIN-SUFFIX,diabrowser.com,AI
+  - DOMAIN-SUFFIX,diabrowser.engineering,AI
+  - DOMAIN-SUFFIX,alkalimakersuite-pa.clients6.google.com,AI
+
+  # =========================
+  # 国内公司海外 AI / 国际版 AI 工具
+  # =========================
+  # 这些来自 category-ai-!cn 列表。是否保留取决于你是否希望它们也统一代理。
+  # 如果你后续发现某个服务在国内出口更稳定，可以单独移到 direct/domestic 规则。
+  - DOMAIN-SUFFIX,coze.com,AI
+  - DOMAIN-SUFFIX,marscode.com,AI
+  - DOMAIN-SUFFIX,trae.ai,AI
+  - DOMAIN-SUFFIX,cici.com,AI
+  - DOMAIN-SUFFIX,ciciai.com,AI
+  - DOMAIN-SUFFIX,ciciaicdn.com,AI
+  - DOMAIN-SUFFIX,dola.com,AI
+  - DOMAIN-SUFFIX,minimax.io,AI
+
+  # =========================
+  # Comfy / AI 工作流生态
+  # =========================
+  # ComfyUI 相关 registry / CI / 官方服务。
+  - DOMAIN-SUFFIX,comfyregistry.org,AI
+  - DOMAIN-SUFFIX,comfyci.org,AI
+  - DOMAIN-SUFFIX,comfy.org,AI
+
+  # =========================
+  # Envato / ThemeForest
+  # =========================
+  # 远程 AI 列表中包含这些创意资产平台域名。
+  # 如果你认为它们不属于 AI，可以后续移到 Developer 或单独 Creative 组。
+  - DOMAIN-SUFFIX,envato.com,AI
+  - DOMAIN-SUFFIX,envato-static.com,AI
+  - DOMAIN-SUFFIX,envatousercontent.com,AI
+  - DOMAIN-SUFFIX,themeforest.net,AI
 
   # 人机验证
   - DOMAIN-SUFFIX,hcaptcha.com,AI
 
-  # 其他 AI 服务
-  - DOMAIN-SUFFIX,perplexity.ai,AI
-  - DOMAIN-SUFFIX,poe.com,AI
+  # =========================
+  # 其他 AI / 边缘条目
+  # =========================
+  # 这些来自远程列表，暂时按 AI 代理处理。
+  - DOMAIN-SUFFIX,crixet.com,AI
+  - DOMAIN-SUFFIX,oystermercury.top,AI
