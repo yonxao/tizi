@@ -5,6 +5,52 @@
 # 明确代理可提升稳定性。
 
 rules:
+  # Cloudflare / Fastly / Akamai / CDN 相关
+  - DOMAIN-SUFFIX,cloudflare.com,Developer
+  - DOMAIN-SUFFIX,cloudflare.net,Developer
+  - DOMAIN-SUFFIX,cloudflare-dns.com,Developer
+  - DOMAIN-SUFFIX,workers.dev,Developer
+  - DOMAIN-SUFFIX,pages.dev,Developer
+
+  - DOMAIN-SUFFIX,fastly.com,Developer
+  - DOMAIN-SUFFIX,fastly.net,Developer
+  - DOMAIN-SUFFIX,fastlylb.net,Developer
+
+  - DOMAIN-SUFFIX,akamai.com,Developer
+  - DOMAIN-SUFFIX,akamai.net,Developer
+  - DOMAIN-SUFFIX,akamaihd.net,Developer
+  - DOMAIN-SUFFIX,akamaiedge.net,Developer
+  - DOMAIN-SUFFIX,akamaized.net,Developer
+  - DOMAIN-SUFFIX,edgesuite.net,Developer
+  - DOMAIN-SUFFIX,edgekey.net,Developer
+  - DOMAIN-SUFFIX,akadns.net,Developer
+  - DOMAIN-SUFFIX,akadns6.net,Developer
+  - DOMAIN-SUFFIX,akamaitechnologies.com,Developer
+  - DOMAIN-SUFFIX,akamaitechnologies.fr,Developer
+
+  # 常见 CDN / Edge / Cloud 基础设施
+  - DOMAIN-SUFFIX,cloudfront.net,Developer
+  - DOMAIN-SUFFIX,amazonaws.com,Developer
+  - DOMAIN-SUFFIX,awsstatic.com,Developer
+
+  - DOMAIN-SUFFIX,azureedge.net,Developer
+  - DOMAIN-SUFFIX,trafficmanager.net,Developer
+  - DOMAIN-SUFFIX,azurefd.net,Developer
+
+  - DOMAIN-SUFFIX,googleusercontent.com,Developer
+  - DOMAIN-SUFFIX,gstatic.com,Developer
+  - DOMAIN-SUFFIX,googleapis.com,Developer
+
+  - DOMAIN-SUFFIX,stackpathdns.com,Developer
+  - DOMAIN-SUFFIX,stackpathcdn.com,Developer
+
+  - DOMAIN-SUFFIX,bunnycdn.com,Developer
+  - DOMAIN-SUFFIX,b-cdn.net,Developer
+
+  - DOMAIN-SUFFIX,jsdelivr.net,Developer
+  - DOMAIN-SUFFIX,unpkg.com,Developer
+  - DOMAIN-SUFFIX,cdnjs.com,Developer
+
   # GitHub / GitLab
   - DOMAIN-SUFFIX,github.com,Developer
   - DOMAIN-SUFFIX,githubusercontent.com,Developer
