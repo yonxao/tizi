@@ -49,7 +49,7 @@ rules:
   - DOMAIN-SUFFIX,clau.de,AI
   - DOMAIN,servd-anthropic-website.b-cdn.net,AI
 
-  - DOMAIN-SUFFIX,browser-intake-us5-datadoghq.com ### Claude APP 监控域名
+  - DOMAIN-SUFFIX,browser-intake-us5-datadoghq.com,AI ### Claude APP 监控域名
 
   # =========================
   # 遥测 / 日志 / 风控相关依赖
