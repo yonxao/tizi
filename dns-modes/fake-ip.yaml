@@ -22,7 +22,13 @@ dns:
     
      # Windows / Android / 系统连通性检测
     - "+.msftconnecttest.com"           # Windows/微软连通性检测，fake-ip 可能导致误判网络状态
-    - "+.msftncsi.com"                  # Windows NCSI 检测，保持真实解析更稳定
+    - "+.msftncsi.com"                  # Windows NCSI 检测
+    - "www.msftconnecttest.com"
+    - "www.msftncsi.com"
+    - "dns.msftncsi.com"
+    # Parallels / Windows DNS 搜索后缀补全兼容
+    - "+.localdomain"
+    - "+.smartont.net"
     
     # 时间同步
     - "time.*.com"                      # 常见时间同步域名；NTP/时间检测类服务不适合 fake-ip
