@@ -18,8 +18,8 @@ dns:
     - 119.29.29.29          # 腾讯 DNS；作为 bootstrap 备份
 
   nameserver:                                     # 默认 DNS；用于非国内策略域名，显式走 Proxy，避免本地直连 Cloudflare/Google DoH
-    - https://cloudflare-dns.com/dns-query#Proxy  # 国外默认 DoH，经 Proxy 出口访问，避免本地网络看到查询内容和目标 DNS
-    - https://dns.google/dns-query#Proxy          # 国外备用 DoH，同样经 Proxy 出口，提高可用性
+    - https://cloudflare-dns.com/dns-query#Final  # 国外默认 DoH，经 Proxy 出口访问，避免本地网络看到查询内容和目标 DNS
+    - https://dns.google/dns-query#Final          # 国外备用 DoH，同样经 Proxy 出口，提高可用性
 
   nameserver-policy:                              # 分域名 DNS 策略；让国内域名用国内 DoH，国外域名走上面的代理 DoH
     "geosite:private,cn":                         # 私有域名与中国大陆域名
