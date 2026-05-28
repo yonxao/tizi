@@ -5,8 +5,72 @@
 # 其余 Microsoft 服务默认进入 Microsoft 组。
 
 rules:
+  # 0. Reality 伪装域名：必须优先 DIRECT
+  # - DOMAIN,www.microsoft.com,DIRECT
+
+  # 1. Windows NCSI 联网状态检测：建议 DIRECT
+  - DOMAIN,www.msftconnecttest.com,DIRECT
+  - DOMAIN,www.msftncsi.com,DIRECT
+  - DOMAIN,dns.msftncsi.com,DIRECT
+  - DOMAIN-SUFFIX,msftconnecttest.com,DIRECT
+  - DOMAIN-SUFFIX,msftncsi.com,DIRECT
+
+  # 2. Microsoft 主服务：走 Microsoft 组
   - DOMAIN-SUFFIX,microsoft.com,Microsoft
-  - DOMAIN-SUFFIX,office.com,Microsoft
+  - DOMAIN-SUFFIX,microsoft.net,Microsoft
+  - DOMAIN-SUFFIX,microsoftonline.com,Microsoft
+  - DOMAIN-SUFFIX,microsoftstore.com,Microsoft
+  - DOMAIN-SUFFIX,windows.com,Microsoft
+  - DOMAIN-SUFFIX,windows.net,Microsoft
+  - DOMAIN-SUFFIX,windowsupdate.com,Microsoft
+  - DOMAIN-SUFFIX,msftauth.net,Microsoft
+  - DOMAIN-SUFFIX,msauth.net,Microsoft
+  - DOMAIN-SUFFIX,msftauthimages.net,Microsoft
+  - DOMAIN-SUFFIX,msidentity.com,Microsoft
+
+  # 3. Edge / SmartScreen / CDN
+  - DOMAIN-SUFFIX,msedge.net,Microsoft
+  - DOMAIN-SUFFIX,azureedge.net,Microsoft
+  - DOMAIN-SUFFIX,akadns.net,Microsoft
+  - DOMAIN-SUFFIX,akamaiedge.net,Microsoft
+  - DOMAIN-SUFFIX,akamaihd.net,Microsoft
+
+  # 4. Defender / SmartScreen / 安全
+  - DOMAIN-SUFFIX,wdcp.microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,wdcpalt.microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,smartscreen.microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,urs.microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,blob.core.windows.net,Microsoft
+
+  # 5. Windows Update / 下载
+  - DOMAIN-SUFFIX,download.microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,download.windowsupdate.com,Microsoft
+  - DOMAIN-SUFFIX,delivery.mp.microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,update.microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,ctldl.windowsupdate.com,Microsoft
+  - DOMAIN-SUFFIX,dl.delivery.mp.microsoft.com,Microsoft
+
+  # 6. 账户 / 登录 / 激活
+  - DOMAIN-SUFFIX,login.live.com,Microsoft
+  - DOMAIN-SUFFIX,account.live.com,Microsoft
   - DOMAIN-SUFFIX,live.com,Microsoft
+  - DOMAIN-SUFFIX,xboxlive.com,Microsoft
+  - DOMAIN-SUFFIX,activation.sls.microsoft.com,Microsoft
+
+  # 7. Office / OneDrive / Outlook / Teams
+  - DOMAIN-SUFFIX,office.com,Microsoft
+  - DOMAIN-SUFFIX,office.net,Microsoft
+  - DOMAIN-SUFFIX,office365.com,Microsoft
+  - DOMAIN-SUFFIX,sharepoint.com,Microsoft
+  - DOMAIN-SUFFIX,onedrive.com,Microsoft
+  - DOMAIN-SUFFIX,onenote.com,Microsoft
+  - DOMAIN-SUFFIX,outlook.com,Microsoft
+  - DOMAIN-SUFFIX,hotmail.com,Microsoft
+  - DOMAIN-SUFFIX,skype.com,Microsoft
+  - DOMAIN-SUFFIX,teams.microsoft.com,Microsoft
+
+  # 8. Bing / Copilot / MSN
   - DOMAIN-SUFFIX,bing.com,Microsoft
+  - DOMAIN-SUFFIX,bing.net,Microsoft
   - DOMAIN-SUFFIX,copilot.microsoft.com,Microsoft
+  - DOMAIN-SUFFIX,msn.com,Microsoft
